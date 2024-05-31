@@ -17,5 +17,11 @@ let stockPersistence = { new IStockDataAccess with
             }
         )
         |> Set.toList
-
+    
+    override this.storeBin (bin) =
+       let answer = SimulatedDatabase.storeBin bin
+       match answer with
+       | Ok _ -> Some bin
+       | Error _ -> None
+    
 }

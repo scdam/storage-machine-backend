@@ -15,6 +15,7 @@ let encoderBin : Encoder<Bin> = fun bin ->
         "content", (Encode.option (fun (PartNumber partNumber) -> Encode.string partNumber) bin.Content)
     ]
 
+
 /// JSON deserialization of a bin identifier.
 let decoderBinIdentifier : Decoder<BinIdentifier> =
     Decode.string
@@ -49,3 +50,12 @@ let encoderProductsOverview : Encoder<ProductsOverview> = fun productsOverview -
                 "total", Encode.int quantity
             ]
     ]
+    
+    
+let decoderBin : Decoder<Bin> =
+    Decode.object (fun get ->
+        {
+            Identifier = get.Required.Field "Identifier" decoderBinIdentifier
+            Content = get.Optional.Field "Content" decoderPartNumber
+        }
+    ) 
